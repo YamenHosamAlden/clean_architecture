@@ -1,8 +1,6 @@
-import 'package:clean_architecture/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
 import 'package:clean_architecture/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:clean_architecture/route_generator.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,17 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<NumberTriviaBloc>(
-      create: (_) => sl<NumberTriviaBloc>(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        initialRoute: '/',
-        onGenerateRoute: RouteGenerator.generateRoute,
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:clean_architecture/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
+import 'package:clean_architecture/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +12,13 @@ class NumberTriviaPage extends StatefulWidget {
 }
 
 class _NumberTriviaPageState extends State<NumberTriviaPage> {
+  late NumberTriviaBloc numberTriviaBloc;
+  @override
+  void initState() {
+    numberTriviaBloc = sl<NumberTriviaBloc>();
+    super.initState();
+  }
+
   TextEditingController textEditingController = TextEditingController();
   String inputStr = "";
   @override
@@ -31,6 +39,7 @@ class _NumberTriviaPageState extends State<NumberTriviaPage> {
             height: 10,
           ),
           BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
+            bloc: numberTriviaBloc,
             builder: (context, state) {
               if (state is Empty) {
                 return const MessageDisplay(message: "Start Searching !");
@@ -89,13 +98,13 @@ class _NumberTriviaPageState extends State<NumberTriviaPage> {
 
   void addConcrete() {
     textEditingController.clear();
-    BlocProvider.of<NumberTriviaBloc>(context)
+    numberTriviaBloc
         .add(GetTriviaForConcreteNumber(inputStr));
   }
 
   void addRandom() {
     textEditingController.clear();
-    BlocProvider.of<NumberTriviaBloc>(context).add(GetTriviaForRandomNumber());
+    numberTriviaBloc.add(GetTriviaForRandomNumber());
   }
 }
 
@@ -122,7 +131,7 @@ class TriviaDisplay extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 3,
       child: Column(
         children: [
-          Text(numberTrivia.number),
+          Text("${numberTrivia.number}"),
           Expanded(
               child: Center(
                   child:
